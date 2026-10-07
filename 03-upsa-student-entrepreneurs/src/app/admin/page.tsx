@@ -32,6 +32,6 @@ async function AdminContent({ searchParams }: { searchParams: PageProps<"/admin"
     );
   }
   const includeDemo = (await searchParams).demo === "1";
-  const responses = listResponses({ includeDemo });
-  return <Dashboard config={config} analysis={analyse(config, responses)} includeDemo={includeDemo} counts={countResponses()} />;
+  const [responses, counts] = await Promise.all([listResponses({ includeDemo }), countResponses()]);
+  return <Dashboard config={config} analysis={analyse(config, responses)} includeDemo={includeDemo} counts={counts} />;
 }

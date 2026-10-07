@@ -30,12 +30,12 @@ export async function logout() {
 export async function addDemoData(formData: FormData) {
   if (!(await isAdmin())) redirect("/admin");
   const n = Math.min(500, Math.max(10, Number(formData.get("count")) || 120));
-  insertMany(generateDemoResponses(config, n));
+  await insertMany(generateDemoResponses(config, n));
   redirect("/admin?demo=1");
 }
 
 export async function clearDemoData() {
   if (!(await isAdmin())) redirect("/admin");
-  deleteDemoResponses();
+  await deleteDemoResponses();
   redirect("/admin");
 }

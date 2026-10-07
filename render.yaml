@@ -1,11 +1,13 @@
-# Render Blueprint: one web service per study, each with a persistent disk for its SQLite file.
-# Delete the services for topics you are not using; each one is billed separately.
+# Render Blueprint: one web service per study.
+# Responses are stored in Postgres (DATABASE_URL), so no disk is needed and the free plan works.
+# All services can share one database; rows are separated by study.
+# Delete the services for topics you are not using.
 services:
   - type: web
     name: madina-sme-records
     runtime: node
     rootDir: 01-madina-sme-records
-    plan: starter # persistent disks need a paid instance
+    plan: free # free instances sleep after ~15 min idle; use starter to keep it awake
     region: frankfurt # closest Render region to Ghana
     buildCommand: npm ci && npm run build
     startCommand: npm start
@@ -13,53 +15,41 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 22.20.0
-      - key: DATABASE_PATH
-        value: /var/data/responses.db
-      - key: ADMIN_PASSWORD
+      - key: DATABASE_URL
         sync: false # Render asks for this when you create the Blueprint
-    disk:
-      name: survey-data
-      mountPath: /var/data
-      sizeGB: 1
+      - key: ADMIN_PASSWORD
+        sync: false
 
   - type: web
     name: upsa-student-budgeting
     runtime: node
     rootDir: 02-upsa-student-budgeting
-    plan: starter
-    region: frankfurt
+    plan: free # free instances sleep after ~15 min idle; use starter to keep it awake
+    region: frankfurt # closest Render region to Ghana
     buildCommand: npm ci && npm run build
     startCommand: npm start
     healthCheckPath: /
     envVars:
       - key: NODE_VERSION
         value: 22.20.0
-      - key: DATABASE_PATH
-        value: /var/data/responses.db
+      - key: DATABASE_URL
+        sync: false # Render asks for this when you create the Blueprint
       - key: ADMIN_PASSWORD
         sync: false
-    disk:
-      name: survey-data
-      mountPath: /var/data
-      sizeGB: 1
 
   - type: web
     name: upsa-student-entrepreneurs
     runtime: node
     rootDir: 03-upsa-student-entrepreneurs
-    plan: starter
-    region: frankfurt
+    plan: free # free instances sleep after ~15 min idle; use starter to keep it awake
+    region: frankfurt # closest Render region to Ghana
     buildCommand: npm ci && npm run build
     startCommand: npm start
     healthCheckPath: /
     envVars:
       - key: NODE_VERSION
         value: 22.20.0
-      - key: DATABASE_PATH
-        value: /var/data/responses.db
+      - key: DATABASE_URL
+        sync: false # Render asks for this when you create the Blueprint
       - key: ADMIN_PASSWORD
         sync: false
-    disk:
-      name: survey-data
-      mountPath: /var/data
-      sizeGB: 1

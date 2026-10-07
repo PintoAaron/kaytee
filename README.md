@@ -1,6 +1,6 @@
 # UPSA Accounting & IT Project – Research Apps
 
-One self-contained Next.js + SQLite app per proposed topic. Each has an online questionnaire, an analysis dashboard and SPSS-ready exports.
+One self-contained Next.js app (Postgres in production, SQLite locally) per proposed topic. Each has an online questionnaire, an analysis dashboard and SPSS-ready exports.
 
 | Folder | Topic | IT variable (IV) | Accounting variable (DV) |
 | --- | --- | --- | --- |

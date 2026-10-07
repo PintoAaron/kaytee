@@ -5,7 +5,7 @@ See `src/survey.config.ts` for the full study definition (title, objectives, hyp
 
 ## Run it
 
-Requires Node.js 22.13 or newer (uses the built-in `node:sqlite`).
+Requires Node.js 22.13 or newer.
 
 ```bash
 npm install
@@ -13,11 +13,16 @@ cp .env.example .env.local     # then set ADMIN_PASSWORD
 npm run dev                    # http://localhost:3000
 ```
 
-For fieldwork: `npm run build && npm start`. Responses are stored in `data/responses.db` (SQLite). Back this file up. It is git-ignored.
+### Storage
 
-The SQLite file needs a persistent disk, so host on a VPS, Render or Railway with a volume, or on a laptop that the team
-shares over the local network (`npm start -- -H 0.0.0.0`). Serverless hosts such as Vercel do not keep local files.
-To use one, replace `src/lib/db.ts` with a hosted database.
+- **Production:** set `DATABASE_URL` to a Postgres connection string. The table `survey_responses` is created
+  automatically on first use. Several studies can share one database, since rows are separated by the `study` column.
+- **Local:** if `DATABASE_URL` is not set, responses go to a SQLite file at `data/responses.db` (git-ignored).
+
+### Deploying on Render
+
+The repository root contains `render.yaml`. In Render, choose **New → Blueprint**, select the repository,
+enter `DATABASE_URL` and `ADMIN_PASSWORD` for each service, then click **Apply**.
 
 ## Pages
 

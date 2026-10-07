@@ -20,6 +20,6 @@ export async function POST(request: Request) {
 
   const d = Number(body.durationSec);
   const durationSec = Number.isFinite(d) && d >= 0 && d < 86400 ? Math.round(d) : null;
-  const id = insertResponse({ status: check.status, answers, durationSec });
+  const id = await insertResponse({ status: check.status, answers, durationSec });
   return Response.json({ id, status: check.status }, { status: 201 });
 }

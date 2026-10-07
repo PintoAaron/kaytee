@@ -23,9 +23,9 @@ export async function GET(request: Request) {
 
   switch (format) {
     case "csv":
-      return file(responsesCsv(config, listResponses({ includeDemo }), false), `${base}_responses_coded.csv`, "text/csv");
+      return file(responsesCsv(config, await listResponses({ includeDemo }), false), `${base}_responses_coded.csv`, "text/csv");
     case "labels":
-      return file(responsesCsv(config, listResponses({ includeDemo }), true), `${base}_responses_labelled.csv`, "text/csv");
+      return file(responsesCsv(config, await listResponses({ includeDemo }), true), `${base}_responses_labelled.csv`, "text/csv");
     case "codebook":
       return file(codebookCsv(config), `${config.slug}_codebook.csv`, "text/csv");
     case "sps":
